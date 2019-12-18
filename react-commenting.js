@@ -11,7 +11,7 @@ class App extends Component{
   render(){
     return(
       <div>
-        {/* 1) Here: */}
+        {/* 1) Here: This line is calling for the child componenet of Board to be rendered by the parent*/}
         <Board />
       </div>
     )
@@ -21,7 +21,7 @@ class App extends Component{
 class Board extends Component{
   constructor(){
     super()
-    // 2) Here:
+    // 2) Here: This is adding properties and their default values to the Board component. An array of 9 null values for the gamebaord, the value of the current player and winner is set to null. 
     this.state = {
       gameBoard: Array(9).fill(null),
       currentPlayer: "🦄",
@@ -30,9 +30,9 @@ class Board extends Component{
   }
 
   gamePlay = (index) => {
-    // 3) Here:
+    // 3) Here: This is destructuring the properties names within the curly brackets to prevent the need write the long form, this.state."property_name".
     const { gameBoard, currentPlayer, winner, clickCount } = this.state
-    // 4) Here:
+    // 4) Here: If there is no winner yet and the value of the selected array index is still set to null, this will update the specified index of gameBoard to the icon of the current player, it will update the value of current player to the next player and will increment clickCount by 1.
     if(gameBoard[index] === null && winner === null){
       gameBoard[index] = currentPlayer
       this.setState({
@@ -42,7 +42,7 @@ class Board extends Component{
       })
     }
     if(winner === null){
-      // 5) Here:
+      // 5) Here: If the current value of winner is set to null, this runs the winning function to check if there are any winners.
       this.winning()
     }
   }
@@ -62,7 +62,7 @@ class Board extends Component{
     winningConditions.map(value => {
       const [a, b, c] = value
       if(gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]){
-        // 6) Here:
+        // 6) Here: This is updating the set state of winner to the value currentPlayer.
         this.setState({
           winner: currentPlayer
         })
@@ -72,14 +72,14 @@ class Board extends Component{
 
   render(){
     const { gameBoard, currentPlayer, winner } = this.state
-    // 7) Here:
+    // 7) Here: This is a map function used to create an instance of the Square component for each of the items in the gameBoard array.
     let mappedGameBoard = gameBoard.map((value, index) => {
       return(
         <Square
           value={ value }
           index={ index }
           key={ index }
-          {/* 8) Here: */}
+          {/* 8) Here: This is setting the gameplay function as an item that can be referenced by the Square component*/}
           gamePlay={ this.gamePlay }
         />
       )
@@ -89,17 +89,17 @@ class Board extends Component{
         <h1>Tic Tac Toe</h1>
 
           <div className="statusDiv">
-            {/* 9) Here: */}
+            {/* 9) Here: This is printing out the icon for the person who is set as the current player.*/}
             The Current Player is: { currentPlayer }
           </div>
 
           <div className="statusDiv">
-            {/* 10) Here: */}
+            {/* 10) Here: This will print out the icon for the winner of the game*/}
             The Winner is: { winner }
           </div>
 
           <div id="outcomeBoard">
-            {/* 11) Here: */}
+            {/* 11) Here: This is to show the output of the mappedGameBoard function, which is an instance of Square component for each item in the array*/}
             { mappedGameBoard }
           </div>
 
@@ -111,14 +111,14 @@ class Board extends Component{
 class Square extends Component{
 
   handleSquareClick = () => {
-    // 12) Here:
+    // 12) Here: This is receiving the index value Square component that has been clicked, and using that index as the arguement to run the gamePlay function, which changes the value of the index in the array.
     this.props.gamePlay(this.props.index)
   }
 
   render(){
     return(
       <div id="square" onClick={ this.handleSquareClick }>
-        {/* 13) Here: */}
+        {/* 13) Here: This is being used to show the current value of a specific index in the array, either an empty box for null values or a player icon if the box has been selected*/}
         { this.props.value }
       </div>
     )
